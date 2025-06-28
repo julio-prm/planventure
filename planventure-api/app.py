@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -19,6 +19,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 
+from auth import auth_bp
+app.register_blueprint(auth_bp)
+
+from auth_middleware import token_required
+
 # Base model class for common fields
 class BaseModel(db.Model):
     __abstract__ = True
@@ -35,6 +40,11 @@ def health_check():
         "status": "healthy",
         "database": "connected" if db.engine.connect() else "disconnected"
     })
+
+@app.route('/protected')
+@token_required
+def protected_route():
+    return jsonify({"message": "This is a protected route", "user": getattr(request, 'user', None)})
 
 # Error handlers
 @app.errorhandler(404)
