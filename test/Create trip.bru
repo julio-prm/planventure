@@ -1,0 +1,30 @@
+meta {
+  name: Create trip
+  type: http
+  seq: 4
+}
+
+post {
+  url: 127.0.0.1:5000/trips/
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwiZXhwIjoxNzUxMTcyMjE4LjAxODUwMn0.P2GbmZEySNaIbJYHHUcLaKM_t3gxZFAGVsB3b6-x7rI
+}
+
+body:json {
+  {
+    "destination": "Kyoto",
+    "start_date": "2025-09-01",
+    "end_date": "2025-09-07",
+    "latitude": 35.0116,
+    "longitude": 135.7681,
+    "itinerary": "Day 1: Fushimi Inari, Day 2: Arashiyama Bamboo Grove"
+  }
+}
